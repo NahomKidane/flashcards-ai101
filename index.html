@@ -67,43 +67,11 @@
             font-weight: 700;
         }
 
-        .topics-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .topic-btn {
-            padding: 15px;
-            border: 3px solid #ddd;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Calibri', 'Segoe UI', sans-serif;
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #58595B;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .topic-btn:hover {
-            border-color: #FF8200;
-            background: #fff8f0;
-            transform: translateY(-2px);
-        }
-
-        .topic-btn.selected {
-            background: #FF8200;
-            color: white;
-            border-color: #FF8200;
-        }
-
         .topic-controls {
             display: flex;
             gap: 10px;
             justify-content: center;
+            margin-bottom: 15px;
         }
 
         .btn-select-all {
@@ -150,7 +118,7 @@
             font-family: 'Calibri', 'Segoe UI', sans-serif;
             font-size: 1.1em;
             font-weight: 700;
-            margin-top: 20px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
         }
 
@@ -162,6 +130,39 @@
         .btn-start:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 0;
+        }
+
+        .topic-btn {
+            padding: 15px;
+            border: 3px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Calibri', 'Segoe UI', sans-serif;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #58595B;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .topic-btn:hover {
+            border-color: #FF8200;
+            background: #fff8f0;
+            transform: translateY(-2px);
+        }
+
+        .topic-btn.selected {
+            background: #FF8200;
+            color: white;
+            border-color: #FF8200;
         }
 
         /* Study Screen */
@@ -407,7 +408,6 @@
         <!-- Topic Selection Screen -->
         <div class="topic-selection" id="topicSelection">
             <div class="topic-title">Select Topics to Study</div>
-            <div class="topics-grid" id="topicsGrid"></div>
             
             <div class="topic-controls">
                 <button class="btn-select-all" id="selectAllBtn">Select All</button>
@@ -415,6 +415,8 @@
             </div>
 
             <button class="btn-start" id="startBtn" disabled>Start Studying</button>
+
+            <div class="topics-grid" id="topicsGrid"></div>
         </div>
 
         <!-- Study Screen -->
@@ -482,7 +484,7 @@
             { topic: 'Perception & Robotics', question: 'What is the purpose of Human-Robot Interaction components in robotics?', answer: 'To provide interfaces for communication between robots and people.' },
             
             // Machine Learning Fundamentals
-            { topic: 'Machine Learning Fundamentals', question: 'Machine Learning is a branch of AI that focuses on creating systems that learn from data.', answer: 'True' },
+            { topic: 'Machine Learning Fundamentals', question: 'Is Machine Learning a branch of AI that focuses on creating systems that learn from data?', answer: 'Yes, Machine Learning enables systems to learn and improve from experience without being explicitly programmed.' },
             { topic: 'Machine Learning Fundamentals', question: 'Which machine learning approach uses labeled input-output pairs for training?', answer: 'Supervised Learning' },
             { topic: 'Machine Learning Fundamentals', question: 'What is the primary goal of Unsupervised Learning?', answer: 'To discover hidden structures and patterns in unlabeled data without explicit guidance.' },
             { topic: 'Machine Learning Fundamentals', question: 'How does Reinforcement Learning (RL) optimize the behavior of an agent?', answer: 'Through trial and error using a system of rewards and penalties.' },
@@ -493,7 +495,7 @@
             { topic: 'Deep Learning', question: 'What is the relationship between Deep Learning and Machine Learning?', answer: 'Deep Learning is a specialized subset of Machine Learning based on Artificial Neural Networks.' },
             { topic: 'Deep Learning', question: 'What does the term deep represent in the phrase Deep Learning?', answer: 'The presence of multiple processing layers within the neural network.' },
             { topic: 'Deep Learning', question: 'Which specific Deep Learning model revolutionized protein structure prediction?', answer: 'AlphaFold' },
-            { topic: 'Deep Learning', question: 'What does End-to-End Learning in Deep Learning refer to?', answer: 'The ability of a system to learn directly from raw input to the desired output.' },
+            { topic: 'Deep Learning', question: 'What does End-to-End Learning refer to in Deep Learning?', answer: 'The ability of a system to learn directly from raw input to the desired output.' },
             { topic: 'Deep Learning', question: 'What is Automatic Feature Extraction in Deep Learning?', answer: 'The system\'s ability to learn important data features directly without human engineering.' },
             
             // AI Classification
@@ -527,7 +529,7 @@
             { topic: 'Generative AI', question: 'Approximately how much did it cost to train the GPT-3 model?', answer: 'Between 4 and 5 million dollars.' },
             { topic: 'Generative AI', question: 'How can you distinguish if an output is NOT Generative AI?', answer: 'The output is a simple number, a discrete class, or a probability rather than new content.' },
             { topic: 'Generative AI', question: 'Which Generative AI modality includes the creation of website templates and 3D models?', answer: 'Code and Design' },
-            { topic: 'Generative AI', question: 'How can Generative AI assist in the field of Healthcare?', answer: 'By synthesizing realistic patient data for research or drafting clinical notes.' },
+            { topic: 'Generative AI', question: 'How can Generative AI assist in the healthcare sector?', answer: 'By synthesizing realistic patient data for research or drafting clinical notes.' },
             { topic: 'Generative AI', question: 'What is Pattern Recognition in the context of Generative AI foundation models?', answer: 'The ability to understand context and relationships within billions of training examples.' },
             
             // AI Ethics & Safety
