@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF6A00 0%, #FF8C00 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -43,6 +43,132 @@
             font-size: 1.1em;
             opacity: 0.95;
             font-style: italic;
+        }
+
+        /* Topic Selection Screen */
+        .topic-selection {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .topic-selection.hidden {
+            display: none;
+        }
+
+        .topic-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .topic-btn {
+            padding: 15px;
+            border: 3px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .topic-btn:hover {
+            border-color: #FF6A00;
+            background: #fff8f0;
+            transform: translateY(-2px);
+        }
+
+        .topic-btn.selected {
+            background: #FF6A00;
+            color: white;
+            border-color: #FF6A00;
+        }
+
+        .topic-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-select-all {
+            background: #FF6A00;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-select-all:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-clear-all {
+            background: white;
+            color: #FF6A00;
+            padding: 12px 24px;
+            border: 2px solid #FF6A00;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clear-all:hover {
+            background: #fff8f0;
+        }
+
+        .btn-start {
+            width: 100%;
+            background: #FF6A00;
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-start:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Study Screen */
+        .study-screen {
+            display: none;
+        }
+
+        .study-screen.active {
+            display: block;
         }
 
         .progress-bar {
@@ -102,7 +228,7 @@
         }
 
         .card-back {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FF6A00 0%, #FF8C00 100%);
             transform: rotateY(180deg);
         }
 
@@ -125,6 +251,16 @@
 
         .card-back .card-label {
             color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-topic {
+            font-size: 0.75em;
+            color: #FF6A00;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 700;
         }
 
         .card-text {
@@ -182,13 +318,23 @@
 
         .btn-flip {
             background: white;
-            color: #667eea;
+            color: #FF6A00;
             padding: 12px 36px;
         }
 
         .btn-flip:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-back-topics {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-back-topics:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .stats {
@@ -216,8 +362,11 @@
                 font-size: 1.8em;
             }
 
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+
             .card {
-                padding: 35px 25px;
                 min-height: 300px;
             }
 
@@ -233,6 +382,15 @@
             button {
                 width: 100%;
             }
+
+            .topic-controls {
+                flex-direction: column;
+            }
+
+            .topic-btn {
+                font-size: 0.9em;
+                padding: 12px;
+            }
         }
     </style>
 </head>
@@ -243,176 +401,252 @@
             <p>Master the concepts of Artificial Intelligence</p>
         </div>
 
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
+        <!-- Topic Selection Screen -->
+        <div class="topic-selection" id="topicSelection">
+            <div class="topic-title">Select Topics to Study</div>
+            <div class="topics-grid" id="topicsGrid"></div>
+            
+            <div class="topic-controls">
+                <button class="btn-select-all" id="selectAllBtn">Select All</button>
+                <button class="btn-clear-all" id="clearAllBtn">Clear All</button>
+            </div>
+
+            <button class="btn-start" id="startBtn" disabled>Start Studying</button>
         </div>
 
-        <div class="card-container">
-            <div class="card">
-                <div class="card-side card-front">
-                    <div class="card-content">
-                        <div class="card-label">Question</div>
-                        <div class="card-text">Loading flashcards...</div>
+        <!-- Study Screen -->
+        <div class="study-screen" id="studyScreen">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-side card-front">
+                        <div class="card-content">
+                            <div class="card-topic" id="frontTopic"></div>
+                            <div class="card-label">Question</div>
+                            <div class="card-text">Loading flashcards...</div>
+                        </div>
                     </div>
-                </div>
-                <div class="card-side card-back">
-                    <div class="card-content">
-                        <div class="card-label">Answer</div>
-                        <div class="card-text">Loading flashcards...</div>
+                    <div class="card-side card-back">
+                        <div class="card-content">
+                            <div class="card-label">Answer</div>
+                            <div class="card-text">Loading flashcards...</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="controls">
-            <button class="btn-nav" id="prevBtn">← Previous</button>
-            <button class="btn-flip" id="flipBtn">Flip Card</button>
-            <button class="btn-nav" id="nextBtn">Next →</button>
-        </div>
+            <div class="controls">
+                <button class="btn-nav" id="prevBtn">← Previous</button>
+                <button class="btn-flip" id="flipBtn">Flip Card</button>
+                <button class="btn-nav" id="nextBtn">Next →</button>
+            </div>
 
-        <div class="stats">
-            Card <span id="currentCard">1</span> of <span id="totalCards">0</span>
-        </div>
+            <div class="stats">
+                Card <span id="currentCard">1</span> of <span id="totalCards">0</span>
+            </div>
 
-        <div class="keyboard-hint">
-            💡 Use arrow keys to navigate · Space to flip
+            <div class="controls">
+                <button class="btn-back-topics" id="backTopicsBtn">← Back to Topics</button>
+            </div>
+
+            <div class="keyboard-hint">
+                💡 Use arrow keys to navigate · Space to flip
+            </div>
         </div>
     </div>
 
     <script>
-        // CSV data embedded directly
-        const csvData = `What is the core aim of Artificial Intelligence (AI)?,To simulate human-like intelligence in machines, enabling them to learn and make data-driven decisions.
-Which core component of AI involves logical frameworks and symbolic approaches to draw conclusions?,Reasoning
-In the context of AI foundations, what is 'Knowledge Representation'?,The methods used to organize and structure information in machine-accessible formats.
-Which AI component focuses on formulating strategies to achieve specific goals?,Planning
-What is the primary role of Natural Language Processing (NLP) in AI?,To enable communication between humans and machines through language.
-Which AI sensory systems provide environmental awareness through computer vision?,Perception
-How does AI use the academic field of Philosophy?,By drawing on logic, ethics, and epistemology to guide system behavior and development.
-Which discipline provides AI with structures and rules that govern language?,Linguistics
-What is the role of 'Actuators' in AI robotics?,Physical components like motors or hydraulics that enable a robot to perform movements.
-In robotics, which component processes sensor data to manage the behavior of actuators?,Control Systems
-Machine Learning is a branch of AI that focuses on creating systems that _____.,learn from data
-What is the relationship between Deep Learning and Machine Learning?,Deep Learning is a specialized subset of Machine Learning based on Artificial Neural Networks.
-Which type of Artificial Neural Networks generates data similar to the data it was trained on?,Generative AI
-What defines the functionality of a 'Non-AI' or traditional computing system?,Explicit, predefined rules and human-programmed instructions.
-What does it mean for a non-AI system to be 'deterministic'?,It will always produce the same output for a given input based on fixed instructions.
-What is a primary limitation of traditional thermostats compared to smart thermostats?,They operate on fixed rules and lack the ability to learn or adapt to user preferences.
-Which era of AI history was characterized by rule-based systems and explicit knowledge representation?,Classical AI (Mid-20th Century to 1980s)
-Why were classical AI systems described as 'brittle'?,They performed poorly when encountering scenarios outside their explicitly programmed rules.
-What was the purpose of the 1970s expert system known as MYCIN?,To diagnose infectious diseases using human knowledge encoded into the machine.
-How did IBM's Deep Blue defeat world champion Garry Kasparov in 1997?,Through brute-force search and evaluation algorithms to find optimal chess moves.
-What architectural innovation in 2018 revolutionized natural language processing?,Transformers
-What is the defining characteristic of 'Narrow AI' (ANI)?,It is specialized and trained to excel at one specific task or domain.
-Which classification of AI refers to human-level intelligence across diverse tasks but remains theoretical?,General AI (AGI)
-What is 'Superintelligence' (ASI)?,A purely hypothetical level of AI that exceeds human capabilities across all domains.
-What is a significant 'innovation' advantage of Artificial Narrow Intelligence?,It serves as the building block for technologies like computer vision and autonomous systems.
-Why is it difficult to expand Narrow AI systems beyond their niche?,Their algorithms do not easily transfer to different domains without extensive retraining.
-In AI development, what does it mean for a model to be 'prone to bias'?,The system learns and perpetuates human prejudices found in its historical training data.
-Which machine learning approach uses labeled 'input-output' pairs for training?,Supervised Learning
-What is the primary goal of Unsupervised Learning?,To discover hidden structures and patterns in unlabeled data without explicit guidance.
-How does Reinforcement Learning (RL) optimize the behavior of an agent?,Through trial and error using a system of rewards and penalties.
-What is an example of an 'Unsupervised Learning' task in image classification?,Grouping visually similar images into clusters based on discovered features.
-In Machine Learning, what is 'Customer Segmentation' an example of?,Unsupervised Learning
-Which ML paradigm is used to train self-driving cars to navigate complex road conditions through rewards?,Reinforcement Learning
-What does 'End-to-End Learning' in Deep Learning refer to?,The ability of a system to learn directly from raw input to the desired output.
-What does the term 'deep' represent in the phrase 'Deep Learning'?,The presence of multiple processing layers within the neural network.
-Which specific Deep Learning model revolutionized protein structure prediction?,AlphaFold
-What is the primary goal of a 'Predictive Model' in AI?,To map input data to an output prediction or classification.
-How do 'Generative Models' create new, original data instances?,By learning and modeling the underlying probability distribution of the training data.
-Is 'Sentiment Analysis' an example of a Predictive or Generative model?,Predictive Model
-In Generative AI, what is 'Fine-tuning'?,Specializing a pre-trained model for specific tasks or with additional guidance.
-Approximately how much did it cost to train the GPT-3 model?,$4-5 million
-How do you distinguish if an output is NOT Generative AI?,The output is a simple number, a discrete class, or a probability rather than new content.
-In AI ethics, what is a 'hallucination'?,When a model presents incorrect information with the same confidence as factual data.
-What is a 'Deepfake'?,Convincing fake media created by AI for purposes like disinformation or fraud.
-Which academic field contributes to AI by providing computational theory and algorithms?,Computer Science
-What is the purpose of 'Human-Robot Interaction' components in robotics?,To provide interfaces for communication between robots and people.
-Which AI era moved from hand-coded rules to data-driven learning?,Modern AI Era (1990s-Today)
-What is an example of AI content recommendation in everyday life?,Platforms like Netflix or Spotify suggesting media based on user behavior.
-Which AI classification describes spam filters and product recommendation engines?,Narrow AI (ANI)
-What is the primary data requirement for modern AI models to learn effectively?,They are 'data-hungry,' requiring vast amounts of examples to identify patterns.
-In Supervised Learning, how does the model learn to classify images?,By associating visual features with explicit tags like 'cat' or 'dog' provided in the training set.
-What is 'Topic Modeling' an example of in Machine Learning?,Unsupervised Learning
-Why is Reinforcement Learning suitable for financial trading?,It can learn optimal buying and selling strategies to maximize rewards in dynamic markets.
-What is 'Automatic Feature Extraction' in Deep Learning?,The system's ability to learn important data features directly without human engineering.
-Which Generative AI modality includes the creation of website templates and 3D models?,Code & Design
-How can Generative AI assist in the field of Healthcare?,By synthesizing realistic patient data for research or drafting clinical notes.
-What is 'Pattern Recognition' in the context of Generative AI foundation models?,The ability to understand context and relationships within billions of training examples.
-Which academic field helps AI practitioners understand human reasoning and learning?,Cognitive Science
-What is 'Brute-force search' in the context of Classical AI?,An algorithm that evaluates all possible solutions to find the optimal one.
-Which classification describes an AI that can apply intelligence across any intellectual task a human can?,General AI (AGI)`;
-
-        // Parse CSV
-        function parseCSV(data) {
-            const lines = data.split('\n').filter(line => line.trim());
-            const cards = [];
+        // Flashcard data with topics
+        const allFlashcards = [
+            // Core AI Concepts
+            { topic: 'Core AI Concepts', question: 'What is the core aim of Artificial Intelligence (AI)?', answer: 'To simulate human-like intelligence in machines, enabling them to learn and make data-driven decisions.' },
+            { topic: 'Core AI Concepts', question: 'Which core component of AI involves logical frameworks and symbolic approaches to draw conclusions?', answer: 'Reasoning' },
+            { topic: 'Core AI Concepts', question: 'What is Knowledge Representation in the context of AI foundations?', answer: 'The methods used to organize and structure information in machine-accessible formats.' },
+            { topic: 'Core AI Concepts', question: 'Which AI component focuses on formulating strategies to achieve specific goals?', answer: 'Planning' },
             
-            for (let i = 0; i < lines.length; i++) {
-                // Handle quotes in CSV
-                const line = lines[i];
-                let question = '';
-                let answer = '';
-                let inQuotes = false;
-                let currentField = '';
-                
-                for (let j = 0; j < line.length; j++) {
-                    const char = line[j];
-                    if (char === '"') {
-                        inQuotes = !inQuotes;
-                    } else if (char === ',' && !inQuotes) {
-                        if (!question) {
-                            question = currentField;
-                        } else {
-                            answer = currentField;
-                        }
-                        currentField = '';
-                    } else {
-                        currentField += char;
-                    }
-                }
-                if (currentField) {
-                    answer = currentField;
-                }
-                
-                if (question && answer) {
-                    cards.push({ question, answer });
-                }
-            }
+            // Natural Language Processing
+            { topic: 'Natural Language Processing', question: 'What is the primary role of Natural Language Processing (NLP) in AI?', answer: 'To enable communication between humans and machines through language.' },
+            { topic: 'Natural Language Processing', question: 'Which discipline provides AI with structures and rules that govern language?', answer: 'Linguistics' },
+            { topic: 'Natural Language Processing', question: 'What architectural innovation in 2018 revolutionized natural language processing?', answer: 'Transformers' },
             
-            return cards;
-        }
+            // Perception & Robotics
+            { topic: 'Perception & Robotics', question: 'Which AI sensory systems provide environmental awareness through computer vision?', answer: 'Perception' },
+            { topic: 'Perception & Robotics', question: 'What is the role of actuators in AI robotics?', answer: 'Physical components such as motors or hydraulics that enable a robot to perform movements.' },
+            { topic: 'Perception & Robotics', question: 'In robotics, which component processes sensor data to manage the behavior of actuators?', answer: 'Control Systems' },
+            { topic: 'Perception & Robotics', question: 'What is the purpose of Human-Robot Interaction components in robotics?', answer: 'To provide interfaces for communication between robots and people.' },
+            
+            // Machine Learning Fundamentals
+            { topic: 'Machine Learning Fundamentals', question: 'Machine Learning is a branch of AI that focuses on creating systems that learn from data.', answer: 'True' },
+            { topic: 'Machine Learning Fundamentals', question: 'Which machine learning approach uses labeled input-output pairs for training?', answer: 'Supervised Learning' },
+            { topic: 'Machine Learning Fundamentals', question: 'What is the primary goal of Unsupervised Learning?', answer: 'To discover hidden structures and patterns in unlabeled data without explicit guidance.' },
+            { topic: 'Machine Learning Fundamentals', question: 'How does Reinforcement Learning (RL) optimize the behavior of an agent?', answer: 'Through trial and error using a system of rewards and penalties.' },
+            { topic: 'Machine Learning Fundamentals', question: 'What is Customer Segmentation an example of in Machine Learning?', answer: 'Unsupervised Learning' },
+            { topic: 'Machine Learning Fundamentals', question: 'Which machine learning paradigm is used to train self-driving cars to navigate complex road conditions?', answer: 'Reinforcement Learning' },
+            
+            // Deep Learning
+            { topic: 'Deep Learning', question: 'What is the relationship between Deep Learning and Machine Learning?', answer: 'Deep Learning is a specialized subset of Machine Learning based on Artificial Neural Networks.' },
+            { topic: 'Deep Learning', question: 'What does the term deep represent in the phrase Deep Learning?', answer: 'The presence of multiple processing layers within the neural network.' },
+            { topic: 'Deep Learning', question: 'Which specific Deep Learning model revolutionized protein structure prediction?', answer: 'AlphaFold' },
+            { topic: 'Deep Learning', question: 'What does End-to-End Learning in Deep Learning refer to?', answer: 'The ability of a system to learn directly from raw input to the desired output.' },
+            { topic: 'Deep Learning', question: 'What is Automatic Feature Extraction in Deep Learning?', answer: 'The system\'s ability to learn important data features directly without human engineering.' },
+            
+            // AI Classification
+            { topic: 'AI Classification', question: 'What is the defining characteristic of Narrow AI (ANI)?', answer: 'It is specialized and trained to excel at one specific task or domain.' },
+            { topic: 'AI Classification', question: 'Which classification of AI refers to human-level intelligence across diverse tasks but remains theoretical?', answer: 'General AI (AGI)' },
+            { topic: 'AI Classification', question: 'What is Superintelligence (ASI)?', answer: 'A purely hypothetical level of AI that would exceed human capabilities across all domains.' },
+            { topic: 'AI Classification', question: 'Why is it difficult to expand Narrow AI systems beyond their niche?', answer: 'Their algorithms do not easily transfer to different domains without extensive retraining.' },
+            { topic: 'AI Classification', question: 'Which AI classification describes spam filters and product recommendation engines?', answer: 'Narrow AI (ANI)' },
+            { topic: 'AI Classification', question: 'Which classification describes an AI that can apply intelligence across any intellectual task a human can?', answer: 'General AI (AGI)' },
+            
+            // AI History
+            { topic: 'AI History', question: 'Which era of AI history was characterized by rule-based systems and explicit knowledge representation?', answer: 'Classical AI (mid-20th century to 1980s)' },
+            { topic: 'AI History', question: 'Why were classical AI systems described as brittle?', answer: 'They performed poorly when encountering scenarios outside their explicitly programmed rules.' },
+            { topic: 'AI History', question: 'What was the purpose of the 1970s expert system MYCIN?', answer: 'To diagnose infectious diseases using human knowledge encoded into the machine.' },
+            { topic: 'AI History', question: 'How did IBM\'s Deep Blue defeat world champion Garry Kasparov in 1997?', answer: 'Through brute-force search and evaluation algorithms to find optimal chess moves.' },
+            { topic: 'AI History', question: 'Which AI era moved from hand-coded rules to data-driven learning?', answer: 'The Modern AI Era (1990s-Today)' },
+            
+            // Traditional vs AI Systems
+            { topic: 'Traditional vs AI Systems', question: 'What defines the functionality of a non-AI or traditional computing system?', answer: 'It relies on explicit, predefined rules and human-programmed instructions.' },
+            { topic: 'Traditional vs AI Systems', question: 'What does it mean for a non-AI system to be deterministic?', answer: 'It will always produce the same output for a given input based on fixed instructions.' },
+            { topic: 'Traditional vs AI Systems', question: 'What is a primary limitation of traditional thermostats compared to smart thermostats?', answer: 'They operate on fixed rules and lack the ability to learn or adapt to user preferences.' },
+            
+            // Generative vs Predictive Models
+            { topic: 'Generative vs Predictive Models', question: 'Which type of Artificial Neural Networks generates data similar to the data it was trained on?', answer: 'Generative AI' },
+            { topic: 'Generative vs Predictive Models', question: 'What is the primary goal of a Predictive Model in AI?', answer: 'To map input data to an output prediction or classification.' },
+            { topic: 'Generative vs Predictive Models', question: 'How do Generative Models create new, original data instances?', answer: 'By learning and modeling the underlying probability distribution of the training data.' },
+            { topic: 'Generative vs Predictive Models', question: 'Is Sentiment Analysis an example of a Predictive or Generative model?', answer: 'Sentiment Analysis is a Predictive Model.' },
+            
+            // Generative AI
+            { topic: 'Generative AI', question: 'What is Fine-tuning in Generative AI?', answer: 'Specializing a pre-trained model for specific tasks or with additional guidance.' },
+            { topic: 'Generative AI', question: 'Approximately how much did it cost to train the GPT-3 model?', answer: 'Between 4 and 5 million dollars.' },
+            { topic: 'Generative AI', question: 'How can you distinguish if an output is NOT Generative AI?', answer: 'The output is a simple number, a discrete class, or a probability rather than new content.' },
+            { topic: 'Generative AI', question: 'Which Generative AI modality includes the creation of website templates and 3D models?', answer: 'Code and Design' },
+            { topic: 'Generative AI', question: 'How can Generative AI assist in the field of Healthcare?', answer: 'By synthesizing realistic patient data for research or drafting clinical notes.' },
+            { topic: 'Generative AI', question: 'What is Pattern Recognition in the context of Generative AI foundation models?', answer: 'The ability to understand context and relationships within billions of training examples.' },
+            
+            // AI Ethics & Safety
+            { topic: 'AI Ethics & Safety', question: 'In AI development, what does it mean for a model to be prone to bias?', answer: 'The system learns and perpetuates human prejudices found in its historical training data.' },
+            { topic: 'AI Ethics & Safety', question: 'What is a hallucination in AI ethics?', answer: 'When a model presents incorrect information with the same confidence as factual data.' },
+            { topic: 'AI Ethics & Safety', question: 'What is a Deepfake?', answer: 'Convincing fake media created by AI for purposes such as disinformation or fraud.' },
+            
+            // Interdisciplinary Foundations
+            { topic: 'Interdisciplinary Foundations', question: 'How does AI use the academic field of Philosophy?', answer: 'By drawing on logic, ethics, and epistemology to guide system behavior and development.' },
+            { topic: 'Interdisciplinary Foundations', question: 'Which academic field contributes to AI by providing computational theory and algorithms?', answer: 'Computer Science' },
+            { topic: 'Interdisciplinary Foundations', question: 'Which academic field helps AI practitioners understand human reasoning and learning?', answer: 'Cognitive Science' },
+            
+            // Unsupervised Learning
+            { topic: 'Unsupervised Learning', question: 'What is an example of an Unsupervised Learning task in image classification?', answer: 'Grouping visually similar images into clusters based on discovered features.' },
+            { topic: 'Unsupervised Learning', question: 'What is Topic Modeling an example of in Machine Learning?', answer: 'Unsupervised Learning' },
+            
+            // Supervised Learning
+            { topic: 'Supervised Learning', question: 'How does the model learn to classify images in Supervised Learning?', answer: 'By associating visual features with explicit tags such as cat or dog provided in the training set.' },
+            
+            // Reinforcement Learning Applications
+            { topic: 'Reinforcement Learning Applications', question: 'Why is Reinforcement Learning suitable for financial trading?', answer: 'It can learn optimal buying and selling strategies to maximize rewards in dynamic markets.' },
+            
+            // AI Applications
+            { topic: 'AI Applications', question: 'What is an example of AI content recommendation in everyday life?', answer: 'Platforms such as Netflix or Spotify suggesting media based on user behavior.' },
+            { topic: 'AI Applications', question: 'What is the primary data requirement for modern AI models to learn effectively?', answer: 'They require vast amounts of data examples to identify patterns effectively.' },
+            { topic: 'AI Applications', question: 'What is Brute-force search in the context of Classical AI?', answer: 'An algorithm that evaluates all possible solutions to find the optimal one.' },
+            { topic: 'AI Applications', question: 'What is a significant innovation advantage of Artificial Narrow Intelligence?', answer: 'It serves as the building block for technologies such as computer vision and autonomous systems.' }
+        ];
 
-        const flashcards = parseCSV(csvData);
+        // Extract unique topics
+        const uniqueTopics = [...new Set(allFlashcards.map(card => card.topic))].sort();
+        let selectedTopics = new Set();
+        let filteredFlashcards = [];
         let currentIndex = 0;
         let isFlipped = false;
 
+        // Initialize topic selection
+        function initializeTopics() {
+            const topicsGrid = document.getElementById('topicsGrid');
+            topicsGrid.innerHTML = '';
+            
+            uniqueTopics.forEach(topic => {
+                const btn = document.createElement('button');
+                btn.className = 'topic-btn';
+                btn.textContent = topic;
+                btn.onclick = () => toggleTopic(topic, btn);
+                topicsGrid.appendChild(btn);
+            });
+        }
+
+        function toggleTopic(topic, btn) {
+            if (selectedTopics.has(topic)) {
+                selectedTopics.delete(topic);
+                btn.classList.remove('selected');
+            } else {
+                selectedTopics.add(topic);
+                btn.classList.add('selected');
+            }
+            updateStartButton();
+        }
+
+        function updateStartButton() {
+            const startBtn = document.getElementById('startBtn');
+            startBtn.disabled = selectedTopics.size === 0;
+        }
+
+        document.getElementById('selectAllBtn').addEventListener('click', () => {
+            selectedTopics = new Set(uniqueTopics);
+            document.querySelectorAll('.topic-btn').forEach(btn => btn.classList.add('selected'));
+            updateStartButton();
+        });
+
+        document.getElementById('clearAllBtn').addEventListener('click', () => {
+            selectedTopics = new Set();
+            document.querySelectorAll('.topic-btn').forEach(btn => btn.classList.remove('selected'));
+            updateStartButton();
+        });
+
+        document.getElementById('startBtn').addEventListener('click', startStudying);
+
+        function startStudying() {
+            filteredFlashcards = allFlashcards.filter(card => selectedTopics.has(card.topic));
+            currentIndex = 0;
+            isFlipped = false;
+
+            document.getElementById('topicSelection').classList.add('hidden');
+            document.getElementById('studyScreen').classList.add('active');
+
+            document.getElementById('totalCards').textContent = filteredFlashcards.length;
+            updateCard();
+        }
+
+        document.getElementById('backTopicsBtn').addEventListener('click', () => {
+            document.getElementById('studyScreen').classList.remove('active');
+            document.getElementById('topicSelection').classList.remove('hidden');
+        });
+
+        // Study screen controls
         const card = document.querySelector('.card');
         const cardFrontText = document.querySelector('.card-front .card-text');
         const cardBackText = document.querySelector('.card-back .card-text');
+        const cardFrontTopic = document.getElementById('frontTopic');
         const flipBtn = document.getElementById('flipBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const currentCardSpan = document.getElementById('currentCard');
-        const totalCardsSpan = document.getElementById('totalCards');
         const progressFill = document.querySelector('.progress-fill');
 
-        totalCardsSpan.textContent = flashcards.length;
-
         function updateCard() {
-            const current = flashcards[currentIndex];
+            const current = filteredFlashcards[currentIndex];
             isFlipped = false;
             card.classList.remove('flipped');
             cardFrontText.textContent = current.question;
             cardBackText.textContent = current.answer;
+            cardFrontTopic.textContent = current.topic;
             currentCardSpan.textContent = currentIndex + 1;
             
-            // Update progress bar
-            const progress = ((currentIndex + 1) / flashcards.length) * 100;
+            const progress = ((currentIndex + 1) / filteredFlashcards.length) * 100;
             progressFill.style.width = progress + '%';
             
-            // Update button states
             prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === flashcards.length - 1;
+            nextBtn.disabled = currentIndex === filteredFlashcards.length - 1;
         }
 
         function flipCard() {
@@ -421,7 +655,7 @@ Which classification describes an AI that can apply intelligence across any inte
         }
 
         function nextCard() {
-            if (currentIndex < flashcards.length - 1) {
+            if (currentIndex < filteredFlashcards.length - 1) {
                 currentIndex++;
                 updateCard();
             }
@@ -434,7 +668,6 @@ Which classification describes an AI that can apply intelligence across any inte
             }
         }
 
-        // Event listeners
         flipBtn.addEventListener('click', flipCard);
         nextBtn.addEventListener('click', nextCard);
         prevBtn.addEventListener('click', prevCard);
@@ -442,18 +675,20 @@ Which classification describes an AI that can apply intelligence across any inte
 
         // Keyboard controls
         document.addEventListener('keydown', (e) => {
-            if (e.key === ' ') {
-                e.preventDefault();
-                flipCard();
-            } else if (e.key === 'ArrowRight') {
-                nextCard();
-            } else if (e.key === 'ArrowLeft') {
-                prevCard();
+            if (document.getElementById('studyScreen').classList.contains('active')) {
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    flipCard();
+                } else if (e.key === 'ArrowRight') {
+                    nextCard();
+                } else if (e.key === 'ArrowLeft') {
+                    prevCard();
+                }
             }
         });
 
         // Initialize
-        updateCard();
+        initializeTopics();
     </script>
 </body>
 </html>
