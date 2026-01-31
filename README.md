@@ -30,6 +30,31 @@ This project includes an automation script to help you generate new decks quickl
 4.  The script will automatically generate the HTML and Data files and update your Dashboard.
 5.  Open the newly created `decks/YOUR_FILE_data.js` to populate it with your questions.
 
+## Deployment (GitHub Pages)
+
+This project is ready to be hosted on GitHub Pages.
+
+1.  Push your code to a GitHub repository.
+2.  Go to **Settings** > **Pages**.
+3.  Under **Build and deployment**, select **Source** as `Deploy from a branch`.
+4.  Select `main` (or `master`) branch and `/ (root)` folder.
+5.  Click **Save**.
+
+Your site will be live at `https://YOUR_USERNAME.github.io/flashcards-ai101/`.
+
+## Embedding in Canvas LMS
+
+Once your site is live on GitHub Pages, you can embed it directly into a Canvas Page.
+
+1.  In Canvas, create or edit a **Page**.
+2.  Switch to the **HTML Editor** (look for the `</>` icon).
+3.  Paste the following code (replace the URL with your GitHub Pages URL):
+
+    ```html
+    <iframe src="https://YOUR_USERNAME.github.io/flashcards-ai101/index.html" width="100%" height="800" style="border:none;"></iframe>
+    ```
+4.  Save and Publish.
+
 ## Project Structure
 
 -   `index.html`: Main dashboard linking to all decks.
