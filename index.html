@@ -1,31 +1,127 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>AI 101 Flashcards</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 101 Flashcards - Dashboard</title>
   <style>
-    body { font-family: Arial; max-width: 900px; margin: auto; padding: 30px; }
-    h1 { margin-bottom: 10px; }
-    a {
-      display: block;
-      padding: 14px 18px;
-      margin: 12px 0;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      text-decoration: none;
-      color: #000;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    a:hover { border-color: #ff8200; }
+
+    body {
+      font-family: 'Calibri', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #2b2c2e 0%, #1a1b1d 100%);
+      min-height: 100vh;
+      color: white;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      color: #FF8200;
+      /* Matching the orange accent */
+    }
+
+    p.subtitle {
+      font-size: 1.2em;
+      color: #ccc;
+    }
+
+    .deck-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .deck-card {
+      background: #3a3b3d;
+      border-radius: 12px;
+      padding: 30px;
+      text-decoration: none;
+      color: white;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 200px;
+    }
+
+    .deck-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      border-color: #FF8200;
+    }
+
+    .deck-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .deck-info {
+      font-size: 0.9em;
+      color: #bbb;
+    }
+
+    .deck-link-icon {
+      margin-top: 20px;
+      text-align: right;
+      color: #FF8200;
+      font-weight: bold;
+    }
   </style>
 </head>
+
 <body>
 
-<h1>AI 101 – Flashcards</h1>
-<p>Select a deck:</p>
+  <div class="container">
+    <header>
+      <h1>AI 101 Flashcards</h1>
+      <p class="subtitle">Master Artificial Intelligence concepts one card at a time.</p>
+    </header>
 
-<a href="decks/Module_1_Intro_to_AI/">Module 1 – Intro to AI</a>
-<a href="decks/ai-history/">AI History</a>
-<a href="decks/ml-vs-dl/">ML vs Deep Learning</a>
+    <div class="deck-grid">
+      <!-- Deck 1 -->
+      <a href="decks/01_ai_fundamentals.html" class="deck-card">
+        <div>
+          <div class="deck-title">AI Fundamentals</div>
+          <div class="deck-info">
+            Covers Core Concepts, History, ML vs DL, Ethics, and more.
+          </div>
+        </div>
+        <div class="deck-link-icon">Start Studying →</div>
+      </a>
+
+      <!-- Deck 2 -->
+      <a href="decks/02_ai_ethics.html" class="deck-card">
+        <div>
+          <div class="deck-title">AI Ethics (Coming Soon)</div>
+          <div class="deck-info">
+            Responsible AI an Ethics
+          </div>
+        </div>
+        <div class="deck-link-icon">Start Studying →</div>
+      </a>
+    </div>
+  </div>
 
 </body>
+
 </html>
