@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Calibri', 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #58595B 0%, #3a3b3d 100%);
+    background: linear-gradient(135deg, #2b2c2e 0%, #1a1b1d 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
