@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Ethics Flashcards</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- MathJax for rendering mathematical formulas -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
+
 <body>
     <a href="../index.html" class="home-link">
         <span>←</span> Dashboard
@@ -13,7 +25,7 @@
     <div class="container">
         <div class="header">
             <h1>AI Ethics</h1>
-            <p>Responsible AI an Ethics</p>
+            <p>Responsible AI and Ethics</p>
         </div>
 
         <div class="topic-selection" id="topicSelection">
@@ -27,7 +39,9 @@
         </div>
 
         <div class="study-screen" id="studyScreen">
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
             <div class="card-container">
                 <div class="card">
                     <div class="card-side card-front">
@@ -59,4 +73,5 @@
     <script src="02_ai_ethics_data.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

@@ -117,6 +117,11 @@ function updateCard() {
 
     prevBtn.disabled = currentIndex === 0;
     nextBtn.disabled = currentIndex === filteredFlashcards.length - 1;
+
+    // Re-render MathJax for formulas
+    if (typeof MathJax !== 'undefined') {
+        MathJax.typesetPromise([cardFrontText, cardBackText]).catch((err) => console.log('MathJax rendering error:', err));
+    }
 }
 
 function flipCard() {
