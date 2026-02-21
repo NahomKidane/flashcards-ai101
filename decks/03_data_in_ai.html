@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data in AI Flashcards</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <a href="../index.html" class="home-link">
+        <span>←</span> Dashboard
+    </a>
+    <div class="container">
+        <div class="header">
+            <h1>Data in AI</h1>
+            <p>Understand the critical role data plays in powering artificial intelligence</p>
+        </div>
+
+        <div class="topic-selection" id="topicSelection">
+            <div class="topic-title">Select Topics to Study</div>
+            <div class="topic-controls">
+                <button class="btn-select-all" id="selectAllBtn">Select All</button>
+                <button class="btn-clear-all" id="clearAllBtn">Clear All</button>
+            </div>
+            <button class="btn-start" id="startBtn" disabled>Start Studying</button>
+            <div class="topics-grid" id="topicsGrid"></div>
+        </div>
+
+        <div class="study-screen" id="studyScreen">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-side card-front">
+                        <div class="card-content">
+                            <div class="card-topic" id="frontTopic"></div>
+                            <div class="card-label">Question</div>
+                            <div class="card-text">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="card-side card-back">
+                        <div class="card-content">
+                            <div class="card-label">Answer</div>
+                            <div class="card-text">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn-nav" id="prevBtn">← Previous</button>
+                <button class="btn-flip" id="flipBtn">Flip Card</button>
+                <button class="btn-nav" id="nextBtn">Next →</button>
+            </div>
+            <div class="stats">Card <span id="currentCard">1</span> of <span id="totalCards">0</span></div>
+            <div class="controls"><button class="btn-back-topics" id="backTopicsBtn">← Back to Topics</button></div>
+            <div class="keyboard-hint">💡 Use arrow keys to navigate · Space to flip</div>
+        </div>
+    </div>
+
+    <script src="03_data_in_ai_data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
